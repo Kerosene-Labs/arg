@@ -32,7 +32,7 @@ public class EspressoArgumentParser {
      */
     public EspressoArgumentParser(String applicationName, String applicationDescription) {
         if (instance != null) {
-            throw new RuntimeException("An EspressoArgumentParser has already been instantiated (application name=%s)".formatted(applicationName));
+            throw new RuntimeException("An EspressoArgumentParser has already been instantiated (application name=\"%s\")".formatted(applicationName));
         }
         this.applicationName = applicationName;
         this.applicationDescription = applicationDescription;
