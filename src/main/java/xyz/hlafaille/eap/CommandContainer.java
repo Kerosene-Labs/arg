@@ -1,5 +1,8 @@
 package xyz.hlafaille.eap;
 
+import lombok.Getter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,49 +10,24 @@ import java.util.List;
  * functionality, but it serves as a container for "files". In this case, a "command container" is a container
  * for "functional commands".
  */
-public abstract class CommandContainer {
+@Getter
+public class CommandContainer {
     private final String name;
     private final String description;
-    private List<Command> commandList;
+    private List<CommandContainer> childCommandContainers = new ArrayList<>();
+    private List<Command> commands = new ArrayList<>();
 
     public CommandContainer(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    /**
-     * Get the name of this command container
-     *
-     * @return String
-     */
-    public String getName() {
-        return name;
+    public void addChildCommandContainer(CommandContainer commandContainer) {
+        childCommandContainers.add(commandContainer);
     }
 
-    /**
-     * Get the description of this command container
-     *
-     * @return String
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * Get a list of all commands under this container
-     *
-     * @return List object containing commands
-     */
-    public List<Command> getCommandList() {
-        return commandList;
-    }
-
-    /**
-     * Add a command to this container
-     *
-     * @param command Command instance
-     */
     public void addCommand(Command command) {
-        commandList.add(command);
+        commands.add(command);
     }
+
 }

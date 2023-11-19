@@ -1,9 +1,11 @@
 package xyz.hlafaille.eap;
 
 import lombok.Getter;
+import xyz.hlafaille.eap.exception.EapCommandNotFoundException;
 import xyz.hlafaille.eap.exception.EapMissingSubcommandException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -61,24 +63,50 @@ public class EspressoArgumentParser {
     /**
      * Intended to be called recursively, parseInCommandContainer will work its way down the args until it discovers a
      * valid Command under a CommandContainer. If a Command was found, it will call .execute() on the Command.
+     *
      * @param commandContainer Command Container to search under
      */
-    private void parseInCommandContainer(CommandContainer commandContainer, String[] remainingArgs) {
+    private void parseInCommandContainer(CommandContainer commandContainer, String[] remainingArgs) throws EapCommandNotFoundException {
+        // separate out our next-in-line command
+        String commandName = remainingArgs[0];
 
+        // iterate over any commands, find a match
+        for (Command command : commandContainer.getCommands()) {
+            if (command.getName().equals(commandName)) {
+                command.execute();
+                return;
+            }
+        }
+
+        // if we didn't return out, iterate over command containers and find a match
+        for (CommandContainer innerCommandContainer : commandContainer.getChildCommandContainers()) {
+            if (innerCommandContainer.getName().equals(commandName)) {
+                parseInCommandContainer(innerCommandContainer, Arrays.copyOfRange(remainingArgs, 1, remainingArgs.length - 1));
+                return;
+            }
+        }
+        throw new EapCommandNotFoundException(commandName);
     }
 
     /**
+     * Parse arguments, working our way down the chain until we eventually execute a command
+     *
      * @param arguments Arg array from main method
      */
-    public void parse(String[] arguments) throws EapMissingSubcommandException {
+    public void parse(String[] arguments) throws EapMissingSubcommandException, EapCommandNotFoundException {
         // if no arguments were provided
         if (arguments.length == 0) {
             throw new EapMissingSubcommandException();
         }
 
+        // establish the name of a command container to parse through (should be first argument in the chain)
+        String baseCommandContainerName = arguments[0];
+
         // iterate over the command containers
         for (CommandContainer commandContainer : commandContainerList) {
-            commandContainer.
+            if (commandContainer.getName().equals(baseCommandContainerName)) {
+                parseInCommandContainer(commandContainer, Arrays.copyOfRange(arguments, 1, arguments.length));
+            }
         }
     }
 }
