@@ -70,7 +70,12 @@ public class EspressoArgumentParser {
      *
      * @param commandContainer Command Container to search under
      */
-    private void parseInCommandContainer(CommandContainer commandContainer, String[] remainingArgs) throws EapCommandNotFoundException, EapMalformedCommandModifierException, EapCommandModifierNotFoundException {
+    private void parseInCommandContainer(CommandContainer commandContainer, String[] remainingArgs) throws EapCommandNotFoundException, EapMalformedCommandModifierException, EapCommandModifierNotFoundException, EapCommandNotSpecifiedException {
+        // check if the user specified a command after their subcommand
+        if (remainingArgs.length == 0) {
+            throw new EapCommandNotSpecifiedException(commandContainer.getName());
+        }
+
         // separate out our next-in-line command
         String commandName = remainingArgs[0];
 
@@ -97,7 +102,7 @@ public class EspressoArgumentParser {
      *
      * @param arguments Arg array from main method
      */
-    public void parse(String[] arguments) throws EapMissingSubcommandException, EapCommandNotFoundException, EapMalformedCommandModifierException, EapSubcommandNotFoundException, EapCommandModifierNotFoundException {
+    public void parse(String[] arguments) throws EapMissingSubcommandException, EapCommandNotFoundException, EapMalformedCommandModifierException, EapSubcommandNotFoundException, EapCommandModifierNotFoundException, EapCommandNotSpecifiedException {
         // if no arguments were provided
         if (arguments.length == 0) {
             throw new EapMissingSubcommandException();
@@ -107,11 +112,17 @@ public class EspressoArgumentParser {
         String baseCommandContainerName = arguments[0];
 
         // iterate over the command containers
+        Boolean commandContainerFound = false;
         for (CommandContainer commandContainer : commandContainerList) {
             if (commandContainer.getName().equals(baseCommandContainerName)) {
                 parseInCommandContainer(commandContainer, Arrays.copyOfRange(arguments, 1, arguments.length));
+                commandContainerFound = true;
             }
         }
-        //throw new EapSubcommandNotFoundException(baseCommandContainerName);
+
+        // if a command container could not be found
+        if (!commandContainerFound) {
+            throw new EapSubcommandNotFoundException(baseCommandContainerName);
+        }
     }
 }
