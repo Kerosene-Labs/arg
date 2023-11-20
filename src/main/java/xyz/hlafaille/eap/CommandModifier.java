@@ -17,5 +17,6 @@ import lombok.Getter;
 public abstract class CommandModifier {
     private String name;
     private String description;
+    // private Class expectedType; todo finish
     private String value;
 }

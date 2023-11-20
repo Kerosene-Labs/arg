@@ -1,7 +1,9 @@
 package xyz.hlafaille.eap;
 
 import lombok.Getter;
+import xyz.hlafaille.eap.exception.EapMalformedCommandModifierException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +24,36 @@ public abstract class Command {
         this.helpText = helpText;
     }
 
-    abstract void execute();
+    /**
+     * Add a Command Modifier to this command. An example of a Command Modifier would be --tail 30. Command modifiers
+     * can be marked as required or not.
+     *
+     * @param commandModifier CommandModifier instance
+     */
+    public void addCommandModifier(CommandModifier commandModifier) {
+        commandModifierList.add(commandModifier);
+    }
 
+    /**
+     * Automatically called by the EspressoArgumentParser, this method primarily does parsing and type checking on
+     * any potential command modifiers passed.
+     *
+     * @param remainingArgs Array of remaining args
+     */
+    public void preExecute(String[] remainingArgs) throws EapMalformedCommandModifierException {
+        List<CommandModifier> commandModifiers = new ArrayList<>();
+        for (String arg : remainingArgs) {
+            if (!arg.contains("--")) {
+                throw new EapMalformedCommandModifierException(arg);
+            }
+        }
+        execute(commandModifiers);
+    }
+
+    /**
+     * Call the programmer-defined actions.
+     *
+     * @param commandModifiers A list of command modifiers provided by the user
+     */
+    abstract void execute(List<CommandModifier> commandModifiers);
 }
