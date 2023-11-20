@@ -4,8 +4,11 @@ to provide a clean and efficient way of handling command line arguments. See the
 information.
 
 # Usage
-**main.java**
 ```java
+/**
+ * Main.java
+ */
+
 public class Main() {
     public static void main(String[] args) {
         EspressoArgumentParser espressoArgumentParser = new EspressoArgumentParser("Docker", "Containers, yo!");
@@ -27,8 +30,7 @@ public class Main() {
     }
 }
 ```
-Compile and execute your file with the arguments `java -jar [application_name].jar images ps` and you will see the business logic
-execute.
+Compile and execute your file (`java Main.class images ps`) and you will witness the business logic execute.
 
 # Features
 * Almost exact Docker-like CLI structure
