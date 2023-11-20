@@ -12,11 +12,18 @@ import lombok.Getter;
  * <p/>
  * The <b>--tail 30</b> component is what's known as a command modifier in EAP.
  */
-@Getter
-@AllArgsConstructor
-public abstract class CommandModifier {
+public class CommandModifier {
+    @Getter
     private String name;
+
+    @Getter
     private String description;
+
     // private Class expectedType; todo finish
     private String value;
+
+    public CommandModifier(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }

@@ -49,10 +49,13 @@ public abstract class Command {
                 throw new EapMalformedCommandModifierException(arg);
             }
 
+            // strip out the "--"
+            String baseCommandModifierName = arg.replace("--", "");
+
             // iterate over the registered command modifiers, find one matching the users input
             Boolean commandModifierMatchFound = false;
             for (CommandModifier commandModifier : commandModifierList) {
-                if (commandModifier.getName().equals(arg)) {
+                if (commandModifier.getName().equals(baseCommandModifierName)) {
                     commandModifiers.add(commandModifier);
                     commandModifierMatchFound = true;
                 }

@@ -12,9 +12,13 @@ public class Main {
         Command command = new Command("test", "test") {
             @Override
             void execute(List<CommandModifier> commandModifiers) {
-                System.out.println("Test");
+                System.out.println(commandModifiers);
             }
         };
+
+        // add a command modifier
+        CommandModifier commandModifier = new CommandModifier("test", "test");
+        command.addCommandModifier(commandModifier);
 
         // build our command container
         CommandContainer commandContainer = new CommandContainer("project", "Create, read, update and delete project information");
