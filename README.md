@@ -38,9 +38,9 @@ Compile and execute your file (`java Main.class images ps`) and you will witness
   * `--tail 30`, `--verbose`, `--search "term"`
 * Subcommands
   * Navigational, container like objects that don't provide any functionality
-* Automatic help text generation and printing
-* Call other commands internally
-* Exception handlers
+* ~~Automatic help text generation and printing~~
+* ~~Call other commands internally~~
+* ~~Exception handlers~~
 
 # Reasoning
 I strongly disliked how other libraries like Apache Commons CLI work, especially since they seem to enforce a GNU style
