@@ -1,5 +1,8 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     id("java")
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "xyz.hlafaille.espresso"
@@ -19,4 +22,14 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks {
+    named<ShadowJar>("shadowJar") {
+        archiveFileName.set("eap.jar")
+        mergeServiceFiles()
+        manifest {
+            attributes(mapOf("Main-Class" to "xyz.hlafaille.eap.Main"))
+        }
+    }
 }
