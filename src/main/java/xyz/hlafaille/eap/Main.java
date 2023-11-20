@@ -1,14 +1,11 @@
 package xyz.hlafaille.eap;
 
-import xyz.hlafaille.eap.exception.EapCommandNotFoundException;
-import xyz.hlafaille.eap.exception.EapDuplicateCommandContainerException;
-import xyz.hlafaille.eap.exception.EapMalformedCommandModifierException;
-import xyz.hlafaille.eap.exception.EapMissingSubcommandException;
+import xyz.hlafaille.eap.exception.*;
 
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws EapCommandNotFoundException, EapMissingSubcommandException, EapDuplicateCommandContainerException, EapMalformedCommandModifierException {
+    public static void main(String[] args) throws EapCommandNotFoundException, EapMissingSubcommandException, EapDuplicateCommandContainerException, EapMalformedCommandModifierException, EapSubcommandNotFoundException, EapCommandModifierNotFoundException {
         EspressoArgumentParser espressoArgumentParser = new EspressoArgumentParser("EAP Application", "Test");
 
         // build our command

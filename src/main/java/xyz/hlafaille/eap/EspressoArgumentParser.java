@@ -1,10 +1,7 @@
 package xyz.hlafaille.eap;
 
 import lombok.Getter;
-import xyz.hlafaille.eap.exception.EapCommandNotFoundException;
-import xyz.hlafaille.eap.exception.EapDuplicateCommandContainerException;
-import xyz.hlafaille.eap.exception.EapMalformedCommandModifierException;
-import xyz.hlafaille.eap.exception.EapMissingSubcommandException;
+import xyz.hlafaille.eap.exception.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,14 +70,14 @@ public class EspressoArgumentParser {
      *
      * @param commandContainer Command Container to search under
      */
-    private void parseInCommandContainer(CommandContainer commandContainer, String[] remainingArgs) throws EapCommandNotFoundException, EapMalformedCommandModifierException {
+    private void parseInCommandContainer(CommandContainer commandContainer, String[] remainingArgs) throws EapCommandNotFoundException, EapMalformedCommandModifierException, EapCommandModifierNotFoundException {
         // separate out our next-in-line command
         String commandName = remainingArgs[0];
 
         // iterate over any commands, find a match
         for (Command command : commandContainer.getCommands()) {
             if (command.getName().equals(commandName)) {
-                command.preExecute(Arrays.copyOfRange(remainingArgs, 1, remainingArgs.length - 1));
+                command.preExecute(Arrays.copyOfRange(remainingArgs, 1, remainingArgs.length));
                 return;
             }
         }
@@ -88,7 +85,7 @@ public class EspressoArgumentParser {
         // if we didn't return out, iterate over command containers and find a match
         for (CommandContainer innerCommandContainer : commandContainer.getChildCommandContainers()) {
             if (innerCommandContainer.getName().equals(commandName)) {
-                parseInCommandContainer(innerCommandContainer, Arrays.copyOfRange(remainingArgs, 1, remainingArgs.length - 1));
+                parseInCommandContainer(innerCommandContainer, Arrays.copyOfRange(remainingArgs, 1, remainingArgs.length));
                 return;
             }
         }
@@ -100,7 +97,7 @@ public class EspressoArgumentParser {
      *
      * @param arguments Arg array from main method
      */
-    public void parse(String[] arguments) throws EapMissingSubcommandException, EapCommandNotFoundException, EapMalformedCommandModifierException {
+    public void parse(String[] arguments) throws EapMissingSubcommandException, EapCommandNotFoundException, EapMalformedCommandModifierException, EapSubcommandNotFoundException, EapCommandModifierNotFoundException {
         // if no arguments were provided
         if (arguments.length == 0) {
             throw new EapMissingSubcommandException();
@@ -115,5 +112,6 @@ public class EspressoArgumentParser {
                 parseInCommandContainer(commandContainer, Arrays.copyOfRange(arguments, 1, arguments.length));
             }
         }
+        //throw new EapSubcommandNotFoundException(baseCommandContainerName);
     }
 }
