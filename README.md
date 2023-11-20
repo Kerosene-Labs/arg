@@ -27,7 +27,7 @@ public class Main() {
     }
 }
 ```
-Compile and execute your file with the arguments `[application_name] images ps` and you will see the business logic
+Compile and execute your file with the arguments `java -jar [application_name].jar images ps` and you will see the business logic
 execute.
 
 # Features
