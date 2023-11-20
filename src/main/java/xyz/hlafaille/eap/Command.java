@@ -74,5 +74,5 @@ public abstract class Command {
      *
      * @param commandModifiers A list of command modifiers provided by the user
      */
-    abstract void execute(List<CommandModifier> commandModifiers);
+    public abstract void execute(List<CommandModifier> commandModifiers);
 }

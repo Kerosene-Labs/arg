@@ -11,7 +11,7 @@ public class Main {
         // build our command
         Command command = new Command("test", "test") {
             @Override
-            void execute(List<CommandModifier> commandModifiers) {
+            public void execute(List<CommandModifier> commandModifiers) {
                 System.out.println(commandModifiers);
             }
         };
