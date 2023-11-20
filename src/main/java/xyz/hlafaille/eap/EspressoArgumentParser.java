@@ -98,6 +98,11 @@ public class EspressoArgumentParser {
     }
 
     /**
+     * Add an exception handler
+     */
+    public void addExceptionHandler() {}
+
+    /**
      * Parse arguments, working our way down the chain until we eventually execute a command
      *
      * @param arguments Arg array from main method
