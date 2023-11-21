@@ -25,8 +25,11 @@ public class Main() {
         CommandContainer commandContainer = new CommandContainer("images", "Show all top level images");
         commandContainer.addCommand(command);
         
-        // enter the parser
+        // add that container to your parser
         espressoArgumentParser.addCommandContainer(commandContainer);
+        
+        // enter the parser
+      espressoArgumentParser.parse(args);
     }
 }
 ```
@@ -36,13 +39,17 @@ Compile and execute your file (`java Main.class images ps`) and you will witness
 * Almost exact Docker-like CLI structure
 * Command Modifiers
   * `--tail 30`, `--verbose`, `--search "term"`
-* Subcommands
-  * Navigational, container like objects that don't provide any functionality
+* Command Containers (Subcommands)
+  * Navigational, container like objects that don't provide any business logic
+  * Designed to represent a particular resource, like images in Docker's case
 * ~~Automatic help text generation and printing~~
-* ~~Call other commands internally~~
 * Exception handlers
+  * Built in exception handlers to deal with scenarios such as:
+    * Command/Command Container/Command Modifier not found
+    * Command/Command Container/Command Modifier not specified
+    * Incorrect command modifier input data type
 
-# Reasoning
+# Reason
 I strongly disliked how other libraries like Apache Commons CLI work, especially since they seem to enforce a GNU style
 on the developer. **EAP** enforces a resource-style (similar to Docker CLI) structure, with support for modifiers on any
 particular command.
