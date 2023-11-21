@@ -52,7 +52,8 @@ public class Main() {
     }
 }
 ```
-Compile and execute your file (`java Main.class images ps`) and you will witness the business logic execute.
+...now run your `.jar` file with the `images ps` arguments, you should see the text `Do your business logic here!` print
+to the console!
 
 # Reason
 I strongly disliked how other libraries like Apache Commons CLI work, especially since they seem to enforce a GNU style
