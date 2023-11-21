@@ -16,7 +16,7 @@ information.
 * Exception handlers
   * Built in exception handlers to deal with scenarios such as:
     * Command/Command Container/Command Modifier not found
-    * Command/Command Container/Command Modifier not specified
+    * Command/Command Container not specified
     * Incorrect command modifier input data type
 * ~~Automatic help text generation and printing~~
 * ~~Exit code propagation~~
