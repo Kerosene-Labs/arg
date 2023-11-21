@@ -29,7 +29,7 @@ public class Main() {
         espressoArgumentParser.addCommandContainer(commandContainer);
         
         // enter the parser
-      espressoArgumentParser.parse(args);
+        espressoArgumentParser.parse(args);
     }
 }
 ```
