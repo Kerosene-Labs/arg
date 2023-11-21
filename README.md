@@ -40,7 +40,7 @@ Compile and execute your file (`java Main.class images ps`) and you will witness
   * Navigational, container like objects that don't provide any functionality
 * ~~Automatic help text generation and printing~~
 * ~~Call other commands internally~~
-* ~~Exception handlers~~
+* Exception handlers
 
 # Reasoning
 I strongly disliked how other libraries like Apache Commons CLI work, especially since they seem to enforce a GNU style
