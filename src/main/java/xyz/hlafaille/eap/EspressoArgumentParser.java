@@ -20,6 +20,7 @@ public class EspressoArgumentParser {
 
     @Getter
     private final String applicationDescription;
+    private final List<ExceptionHandler> exceptionHandlerList = new ArrayList<>();
 
     private final List<CommandContainer> commandContainerList = new ArrayList<>();
 
@@ -100,7 +101,9 @@ public class EspressoArgumentParser {
     /**
      * Add an exception handler
      */
-    public void addExceptionHandler() {}
+    public void addExceptionHandler(ExceptionHandler exceptionHandler) {
+        exceptionHandlerList.add(exceptionHandler);
+    }
 
     /**
      * Parse arguments, working our way down the chain until we eventually execute a command
@@ -108,26 +111,37 @@ public class EspressoArgumentParser {
      * @param arguments Arg array from main method
      */
     public void parse(String[] arguments) throws EapMissingSubcommandException, EapCommandNotFoundException, EapMalformedCommandModifierException, EapSubcommandNotFoundException, EapCommandModifierNotFoundException, EapCommandNotSpecifiedException {
-        // if no arguments were provided
-        if (arguments.length == 0) {
-            throw new EapMissingSubcommandException();
-        }
-
-        // establish the name of a command container to parse through (should be first argument in the chain)
-        String baseCommandContainerName = arguments[0];
-
-        // iterate over the command containers
-        Boolean commandContainerFound = false;
-        for (CommandContainer commandContainer : commandContainerList) {
-            if (commandContainer.getName().equals(baseCommandContainerName)) {
-                parseInCommandContainer(commandContainer, Arrays.copyOfRange(arguments, 1, arguments.length));
-                commandContainerFound = true;
+        try {
+            // if no arguments were provided
+            if (arguments.length == 0) {
+                throw new EapMissingSubcommandException();
             }
-        }
 
-        // if a command container could not be found
-        if (!commandContainerFound) {
-            throw new EapSubcommandNotFoundException(baseCommandContainerName);
+            // establish the name of a command container to parse through (should be first argument in the chain)
+            String baseCommandContainerName = arguments[0];
+
+            // iterate over the command containers
+            Boolean commandContainerFound = false;
+            for (CommandContainer commandContainer : commandContainerList) {
+                if (commandContainer.getName().equals(baseCommandContainerName)) {
+                    parseInCommandContainer(commandContainer, Arrays.copyOfRange(arguments, 1, arguments.length));
+                    commandContainerFound = true;
+                }
+            }
+
+            // if a command container could not be found
+            if (!commandContainerFound) {
+                throw new EapSubcommandNotFoundException(baseCommandContainerName);
+            }
+        } catch (Exception e) {
+            // iterate over exception handlers, find a match
+            for (ExceptionHandler exceptionHandler : exceptionHandlerList) {
+                if (exceptionHandler.getExceptionClass().equals(e.getClass())) {
+                    exceptionHandler.execute(e);
+                    return;
+                }
+            }
+            throw e;
         }
     }
 }

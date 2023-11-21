@@ -1,9 +1,17 @@
 package xyz.hlafaille.eap;
 
-abstract class ExceptionHandler {
-    public ExceptionHandler(Class<Exception> exceptionClass) {
+import lombok.Getter;
 
+/**
+ * Tells the Espresso Argument Parser how to deal with a specific exception
+ */
+abstract class ExceptionHandler <T extends Class<Exception>> {
+    @Getter
+    private T exceptionClass;
+
+    public ExceptionHandler(T exceptionClass) {
+        this.exceptionClass = exceptionClass;
     }
 
-    abstract void execute(Exception exception);
+    public abstract void execute(Exception exception);
 }
