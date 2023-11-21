@@ -3,6 +3,25 @@ The **Espresso Argument Parser** is a library built for the [Espresso](https://g
 to provide a clean and efficient way of handling command line arguments. See the `doc/` directory for more in depth 
 information.
 
+# Features
+* Mimics the Docker CLI `resource -> action on resource` style
+* Command Modifiers
+  * Optionally take in a value of a generic type (ex: Integer, String, Boolean)
+  * Enforce that type with builtin exception handlers
+  * Automatically wired in to your command's `execute()` method, allowing you to modify the output of that command 
+    depending on the modifiers specified
+* Command Containers (Subcommands)
+  * Navigational, container like objects that don't provide any business logic
+  * Designed to represent a particular resource, like images in Docker's case
+* Exception handlers
+  * Built in exception handlers to deal with scenarios such as:
+    * Command/Command Container/Command Modifier not found
+    * Command/Command Container/Command Modifier not specified
+    * Incorrect command modifier input data type
+* ~~Automatic help text generation and printing~~
+* ~~Exit code propagation~~
+  * ~~Define your exit code in an exception handler~~
+
 # Usage
 ```java
 /**
@@ -34,20 +53,6 @@ public class Main() {
 }
 ```
 Compile and execute your file (`java Main.class images ps`) and you will witness the business logic execute.
-
-# Features
-* Almost exact Docker-like CLI structure
-* Command Modifiers
-  * `--tail 30`, `--verbose`, `--search "term"`
-* Command Containers (Subcommands)
-  * Navigational, container like objects that don't provide any business logic
-  * Designed to represent a particular resource, like images in Docker's case
-* ~~Automatic help text generation and printing~~
-* Exception handlers
-  * Built in exception handlers to deal with scenarios such as:
-    * Command/Command Container/Command Modifier not found
-    * Command/Command Container/Command Modifier not specified
-    * Incorrect command modifier input data type
 
 # Reason
 I strongly disliked how other libraries like Apache Commons CLI work, especially since they seem to enforce a GNU style
