@@ -1,5 +1,6 @@
 package xyz.hlafaille.eap;
 
+import xyz.hlafaille.eap.buitlin.exceptionhandler.EapCommandModifierNotFoundExceptionHandler;
 import xyz.hlafaille.eap.exception.*;
 
 import java.util.List;
@@ -7,15 +8,6 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) throws EapCommandNotFoundException, EapMissingSubcommandException, EapDuplicateCommandContainerException, EapMalformedCommandModifierException, EapSubcommandNotFoundException, EapCommandModifierNotFoundException, EapCommandNotSpecifiedException {
         EspressoArgumentParser espressoArgumentParser = new EspressoArgumentParser("EAP Application", "Test");
-
-        // create an exception handler
-        ExceptionHandler exceptionHandler = new ExceptionHandler(EapCommandNotSpecifiedException.class) {
-            @Override
-            public void execute(Exception exception) {
-                System.out.println("FUCK");
-            }
-        };
-        espressoArgumentParser.addExceptionHandler(exceptionHandler);
 
         // build our command
         Command command = new Command("test", "test") {
