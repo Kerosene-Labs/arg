@@ -22,7 +22,7 @@ public class EspressoArgumentParser {
     @Getter
     private final String applicationDescription;
     private final List<ExceptionHandler> exceptionHandlerList = new ArrayList<>();
-
+    private final List<Command> commandList = new ArrayList<>();
     private final List<CommandContainer> commandContainerList = new ArrayList<>();
 
     /**
@@ -72,6 +72,20 @@ public class EspressoArgumentParser {
             }
         }
         commandContainerList.add(commandContainer);
+    }
+
+    /**
+     * Add a Command
+     *
+     * @param command Command instance
+     */
+    public void addCommand(Command command) throws EapDuplicateCommandException {
+        for (Command iterCommand : commandList) {
+            if (iterCommand.getName().equals(command.getName())) {
+                throw new EapDuplicateCommandException();
+            }
+        }
+        commandList.add(command);
     }
 
     /**
