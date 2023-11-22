@@ -6,8 +6,8 @@ information.
 # Features
 * Mimics the Docker CLI `resource -> action on resource` style
 * Command Modifiers
-  * Optionally take in a value of a generic type (ex: Integer, String, Boolean)
-  * Enforce that type with builtin exception handlers
+  * ~~Optionally take in a value of a generic type (ex: Integer, String, Boolean)~~
+  * ~~Enforce that type with builtin exception handlers~~
   * Automatically wired in to your command's `execute()` method, allowing you to modify the output of that command 
     depending on the modifiers specified
 * Command Containers (Subcommands)
