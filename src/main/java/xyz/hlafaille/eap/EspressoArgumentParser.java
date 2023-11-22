@@ -143,6 +143,14 @@ public class EspressoArgumentParser {
             // establish the name of a command container to parse through (should be first argument in the chain)
             String baseCommandContainerName = arguments[0];
 
+            // iterate over the top level commands, check if we have any that match
+            for (Command command : commandList) {
+                if (command.getName().equals(baseCommandContainerName)) {
+                    command.preExecute(Arrays.copyOfRange(arguments, 1, arguments.length));
+                    return;
+                }
+            }
+
             // iterate over the command containers
             Boolean commandContainerFound = false;
             for (CommandContainer commandContainer : commandContainerList) {
@@ -156,6 +164,7 @@ public class EspressoArgumentParser {
             if (!commandContainerFound) {
                 throw new EapSubcommandNotFoundException(baseCommandContainerName);
             }
+
         } catch (Exception e) {
             // iterate over exception handlers, find a match
             for (ExceptionHandler exceptionHandler : exceptionHandlerList) {
