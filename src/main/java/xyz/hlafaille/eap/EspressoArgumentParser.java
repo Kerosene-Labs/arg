@@ -22,7 +22,7 @@ public class EspressoArgumentParser {
     @Getter
     private final String applicationDescription;
     private final List<ExceptionHandler> exceptionHandlerList = new ArrayList<>();
-
+    private final List<Command> commandList = new ArrayList<>();
     private final List<CommandContainer> commandContainerList = new ArrayList<>();
 
     /**
@@ -72,6 +72,20 @@ public class EspressoArgumentParser {
             }
         }
         commandContainerList.add(commandContainer);
+    }
+
+    /**
+     * Add a Command
+     *
+     * @param command Command instance
+     */
+    public void addCommand(Command command) throws EapDuplicateCommandException {
+        for (Command iterCommand : commandList) {
+            if (iterCommand.getName().equals(command.getName())) {
+                throw new EapDuplicateCommandException();
+            }
+        }
+        commandList.add(command);
     }
 
     /**
@@ -129,6 +143,14 @@ public class EspressoArgumentParser {
             // establish the name of a command container to parse through (should be first argument in the chain)
             String baseCommandContainerName = arguments[0];
 
+            // iterate over the top level commands, check if we have any that match
+            for (Command command : commandList) {
+                if (command.getName().equals(baseCommandContainerName)) {
+                    command.preExecute(Arrays.copyOfRange(arguments, 1, arguments.length));
+                    return;
+                }
+            }
+
             // iterate over the command containers
             Boolean commandContainerFound = false;
             for (CommandContainer commandContainer : commandContainerList) {
@@ -142,6 +164,7 @@ public class EspressoArgumentParser {
             if (!commandContainerFound) {
                 throw new EapSubcommandNotFoundException(baseCommandContainerName);
             }
+
         } catch (Exception e) {
             // iterate over exception handlers, find a match
             for (ExceptionHandler exceptionHandler : exceptionHandlerList) {
