@@ -18,6 +18,7 @@ information.
     * Command/Command Container/Command Modifier not found
     * Command/Command Container not specified
     * Incorrect command modifier input data type
+* Built in support for colored logging (Windows, macOS and Linux)
 * ~~Accept required input on a Command level~~
 * ~~Automatic help text generation and printing~~
 * ~~Exit code propagation~~

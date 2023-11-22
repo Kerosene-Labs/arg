@@ -1,8 +1,7 @@
 package xyz.hlafaille.eap;
 
 import lombok.Getter;
-import xyz.hlafaille.eap.buitlin.exceptionhandler.EapCommandModifierNotFoundExceptionHandler;
-import xyz.hlafaille.eap.buitlin.exceptionhandler.EapCommandNotFoundExceptionHandler;
+import xyz.hlafaille.eap.buitlin.exceptionhandler.*;
 import xyz.hlafaille.eap.exception.*;
 
 import java.util.ArrayList;
@@ -42,6 +41,11 @@ public class EspressoArgumentParser {
 
         addExceptionHandler(new EapCommandModifierNotFoundExceptionHandler());
         addExceptionHandler(new EapCommandNotFoundExceptionHandler());
+        addExceptionHandler(new EapCommandNotSpecifiedExceptionHandler());
+        addExceptionHandler(new EapDuplicateCommandContainerExceptionHandler());
+        addExceptionHandler(new EapMalformedCommandModifierExceptionHandler());
+        addExceptionHandler(new EapMissingSubcommandExceptionHandler());
+        addExceptionHandler(new EapSubcommandNotFoundExceptionHandler());
     }
 
     /**
