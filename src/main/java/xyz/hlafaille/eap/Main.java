@@ -12,7 +12,7 @@ public class Main {
         // build our command
         Command command = new Command("test", "test") {
             @Override
-            public void execute(List<CommandModifier> commandModifiers) {
+            public void execute(List<CommandModifier> commandModifiers, List<Command> commandList, List<CommandContainer> commandContainerList) {
                 System.out.println(commandModifiers);
             }
         };

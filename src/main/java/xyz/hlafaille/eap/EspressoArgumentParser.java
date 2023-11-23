@@ -106,7 +106,7 @@ public class EspressoArgumentParser {
         // iterate over any commands, find a match
         for (Command command : commandContainer.getCommands()) {
             if (command.getName().equals(commandName)) {
-                command.preExecute(Arrays.copyOfRange(remainingArgs, 1, remainingArgs.length));
+                command.preExecute(Arrays.copyOfRange(remainingArgs, 1, remainingArgs.length), commandList, null);
                 return;
             }
         }
@@ -146,7 +146,7 @@ public class EspressoArgumentParser {
             // iterate over the top level commands, check if we have any that match
             for (Command command : commandList) {
                 if (command.getName().equals(baseCommandContainerName)) {
-                    command.preExecute(Arrays.copyOfRange(arguments, 1, arguments.length));
+                    command.preExecute(Arrays.copyOfRange(arguments, 1, arguments.length), commandList, commandContainerList);
                     return;
                 }
             }

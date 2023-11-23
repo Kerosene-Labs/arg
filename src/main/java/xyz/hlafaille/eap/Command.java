@@ -41,7 +41,7 @@ public abstract class Command {
      *
      * @param remainingArgs Array of remaining args
      */
-    public void preExecute(String[] remainingArgs) throws EapMalformedCommandModifierException, EapCommandModifierNotFoundException {
+    public void preExecute(String[] remainingArgs, List<Command> commandList, List<CommandContainer> commandContainerList) throws EapMalformedCommandModifierException, EapCommandModifierNotFoundException {
         List<CommandModifier> commandModifiers = new ArrayList<>();
         for (String arg : remainingArgs) {
             // if this command modifier doesn't include "--"
@@ -66,13 +66,15 @@ public abstract class Command {
                 throw new EapCommandModifierNotFoundException(arg);
             }
         }
-        execute(commandModifiers);
+        execute(commandModifiers, commandList, commandContainerList);
     }
 
     /**
      * Call the programmer-defined actions.
      *
      * @param commandModifiers A list of command modifiers provided by the user
+     * @param commandList List of commands for the current scope
+     * @param commandContainerList List of command containers for the current scope
      */
-    public abstract void execute(List<CommandModifier> commandModifiers);
+    public abstract void execute(List<CommandModifier> commandModifiers, List<Command> commandList, List<CommandContainer> commandContainerList);
 }
