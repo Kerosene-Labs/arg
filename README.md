@@ -1,7 +1,5 @@
-# Espresso Argument Parser (EAP)
-The **Espresso Argument Parser** is a library built for the [Espresso](https://github.com/hlafaille/espresso) build tool
-to provide a clean and efficient way of handling command line arguments. See the `doc/` directory for more in depth 
-information.
+# Argument Parser (arg)
+The **Argument Parser** (arg) framework provides a clean and efficient way of handling command line arguments.
 
 # Features
 * Mimics the Docker CLI `resource -> action on resource` style
@@ -32,7 +30,7 @@ information.
 
 public class Main() {
     public static void main(String[] args) {
-        EspressoArgumentParser espressoArgumentParser = new EspressoArgumentParser("Docker", "Containers, yo!");
+        EspressoArgumentParser argumentParser = new EspressoArgumentParser("Docker", "Containers, yo!");
 
         // build our command
         Command command = new Command("ps", "List all images on this system") {
@@ -47,10 +45,10 @@ public class Main() {
         commandContainer.addCommand(command);
         
         // add that container to your parser
-        espressoArgumentParser.addCommandContainer(commandContainer);
+        argumentParser.addCommandContainer(commandContainer);
         
         // enter the parser
-        espressoArgumentParser.parse(args);
+        argumentParser.parse(args);
     }
 }
 ```
