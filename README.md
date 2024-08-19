@@ -1,7 +1,5 @@
 # Argument Parser (arg)
-The **Argument Parser** is a library built for the [Espresso](https://github.com/hlafaille/espresso) build tool
-to provide a clean and efficient way of handling command line arguments. See the `doc/` directory for more in depth 
-information.
+The **Argument Parser** (arg) framework provides a clean and efficient way of handling command line arguments.
 
 # Features
 * Mimics the Docker CLI `resource -> action on resource` style
